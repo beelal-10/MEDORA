@@ -22,30 +22,30 @@ A comprehensive quality assurance audit was conducted on the complete MEDORA web
 
 ### DEFECT-001: Missing `node_modules` Dependencies causing `npm run dev` / `npm run build` failure
 - **Date/Time**: 2026-09-20T17:07:59+01:00
-- **Defect Classification**: Environment / Build Blocker
-- **Severity**: **BLOCKER** (P1)
+- **Defect Classification**: Environment / Build Dependency
+- **Severity**: **RESOLVED** (Previously BLOCKER P1)
 - **Requirement Reference**: PRD Section 8.2 (Next.js 14/15 + TypeScript stack) & Phase 0 Roadmap
 - **Steps to Reproduce**:
   1. Open command line in `c:\Users\admin\Desktop\MEDORA`.
   2. Execute `npm run dev` or `npm run build`.
 - **Expected Behavior**: Next.js development server launches on `http://localhost:3000`.
-- **Actual Behavior**: Shell returns error `'next' is not recognized as an internal or external command, operable program or batch file.` due to missing `node_modules` directory.
-- **Root Cause**: `npm install` was not executed after workspace initialization.
-- **Handoff Note**: Senior Programmer must run `npm install` prior to launching dev server.
+- **Actual Behavior**: Previously returned error `'next' is not recognized`.
+- **Resolution**: `npm i` executed successfully (`exit code 0`). Packages installed into `node_modules`.
+- **Status**: **RESOLVED & VERIFIED**.
 
 ---
 
 ### DEFECT-002: Type Inconsistency in `OCRResult` (`raw_text` vs `rawText`)
 - **Date/Time**: 2026-09-20T17:10:30+01:00
 - **Defect Classification**: Data Integrity / Type Safety
-- **Severity**: **MAJOR** (P2)
+- **Severity**: **RESOLVED** (Previously MAJOR P2)
 - **Requirement Reference**: PRD Section 5.2 (OCR Extraction) & Section 9 (Codebase Layout)
 - **Steps to Reproduce**:
-  1. Inspect [`src/types/index.ts`](file:///c:/Users/admin/Desktop/MEDORA/src/types/index.ts#L33-L38): defines `raw_text: string`.
-  2. Inspect [`src/lib/ocr.ts`](file:///c:/Users/admin/Desktop/MEDORA/src/lib/ocr.ts#L29-L34): returns object `{ rawText, lines, confidence, extracted_keywords }`.
+  1. Inspect `src/types/index.ts`: defines `raw_text: string`.
+  2. Inspect `src/lib/ocr.ts`: previously returned object `{ rawText, ... }`.
 - **Expected Behavior**: Returned object key matches interface contract (`raw_text`).
-- **Actual Behavior**: Returned object key is `rawText` (camelCase), causing `ocrResult.raw_text` to evaluate to `undefined` at runtime.
-- **Handoff Note**: Senior Programmer should update `src/lib/ocr.ts` to return `raw_text: rawText`.
+- **Resolution**: Updated `src/lib/ocr.ts` to return `raw_text: rawText`. Verified via Next.js compiler (`npm run build` exited with code 0).
+- **Status**: **RESOLVED & VERIFIED**.
 
 ---
 

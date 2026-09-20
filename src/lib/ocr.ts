@@ -27,7 +27,7 @@ export async function processImageOCR(imageBuffer: Buffer | string): Promise<OCR
   const words = rawText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2);
 
   return {
-    rawText,
+    raw_text: rawText,
     lines: lines.length > 0 ? lines : [rawText],
     confidence: 0.88,
     extracted_keywords: Array.from(new Set(words))
