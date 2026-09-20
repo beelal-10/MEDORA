@@ -35,6 +35,10 @@ export interface OCRResult {
   lines: string[];
   confidence: number;
   extracted_keywords: string[];
+  candidate_brand_name?: string;
+  candidate_generic_name?: string;
+  candidate_strength?: string;
+  candidate_manufacturer?: string;
 }
 
 export type MatchStatus = 'EXACT_MATCH' | 'FUZZY_MATCH' | 'LOW_CONFIDENCE_REFUSAL';

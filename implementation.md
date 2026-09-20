@@ -182,3 +182,136 @@ The implementation is structured across **4 Parallel Tracks**:
 | **Low-Confidence Refusal Rate** | Tracked; 0 forced guesses | System analytics logs |
 | **End-to-End Latency** | $< 15$ seconds on 3G/4G for 1–2 MB images | Network profiling & logs |
 | **Time to Working Prototype** | Within 2 weeks from kickoff | Milestone & phase tracking |
+
+---
+
+## Web Information Architecture
+
+The prototype will expose **five primary pages**. The scan experience remains the product's first screen; informational and legal pages support trust, informed consent, and responsible use.
+
+| Route | Page | Purpose | Access |
+| :--- | :--- | :--- | :--- |
+| `/` | Scan / Home | Upload a medicine package, run OCR, identify a verified record, and show the bilingual explanation or refusal state. | Public |
+| `/about` | About MEDORA | Explain the product mission, the verified-database workflow, supported languages, and the limits of the service. | Public |
+| `/privacy` | Privacy Policy | Explain transient image processing, account data, scan events, retention, third-party processors, user rights, and contact details. | Public |
+| `/terms` | Terms of Use | Define acceptable use, medical disclaimer, identification limitations, intellectual property, service availability, and liability boundaries. | Public |
+| `/auth` | Sign in / Create account | Let a user continue with Google or create/sign into an account with email and password. Include reset-password and verification states. | Public |
+
+`/profile` is a protected destination after authentication rather than one of the five public pages. It should display the user's account details, preferred language, sign-out action, and explicitly user-owned scan history only if scan-history storage has been consented to and enabled.
+
+### Shared Navigation and Page Requirements
+
+- Header navigation links to Home, About, Privacy, Terms, and the authentication state.
+- The active route must be keyboard accessible and visually identifiable.
+- The safety disclaimer remains visible on the scan page and near every medicine result; legal pages must not imply that MEDORA diagnoses, prescribes, or authenticates medicines.
+- Hausa and English translations must cover navigation, authentication errors, consent text, legal-page headings, empty states, and refusal messages. Legal text requires human review before release.
+- Pages must render responsively on low-end mobile devices and remain usable when JavaScript is delayed or unavailable for static informational content.
+
+## Authentication and Profile Specification
+
+### Identity Providers
+
+Use **Supabase Auth** as the identity boundary:
+
+1. **Google OAuth**: redirect from `/auth` to the configured Google provider, then return to a verified callback route and establish the Supabase session.
+2. **Email and password**: support account creation, email verification, sign-in, sign-out, and password-reset email flow. Passwords are managed by Supabase Auth and must never be stored in the MEDORA database.
+
+The exact Google OAuth redirect URL, sender identity for verification/reset email, password policy, and whether unverified email accounts may scan are release configuration decisions. They must be recorded in environment configuration and staging sign-off before production release.
+
+### Authentication States
+
+| State | Required behavior |
+| :--- | :--- |
+| Signed out | User can scan anonymously if product policy permits, read the public pages, or open `/auth`. No private profile data is returned. |
+| OAuth redirect pending | Show a non-duplicating loading state and preserve the intended destination. Handle provider cancellation without treating it as a successful login. |
+| Email verification pending | Explain that the verification email is required and provide a safe resend action with rate limiting. |
+| Authenticated | Redirect to `/profile` or the originally requested protected destination. Show account identity and sign-out control. |
+| Invalid credentials / expired link | Return a localized, non-sensitive error. Do not reveal whether an email address exists. |
+| Session expired | Clear private client state and request re-authentication before accessing profile data. |
+
+### Profile and Data Ownership Model
+
+The authentication subject is the Supabase Auth `user.id`. Application tables must reference this UUID and enforce ownership through row-level security.
+
+```mermaid
+erDiagram
+  AUTH_USERS ||--o| PROFILES : owns
+  AUTH_USERS ||--o{ SCAN_LOGS : creates
+
+  PROFILES {
+    uuid id PK
+    text preferred_language
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  SCAN_LOGS {
+    uuid id PK
+    uuid user_id FK "nullable for anonymous scans"
+    text locale
+    boolean matched
+    numeric confidence_score
+    text outcome
+    timestamptz created_at
+  }
+```
+
+- Create a `profiles` row on first authenticated session using a server-side trigger or idempotent server action.
+- `profiles.id = auth.uid()` is the only permitted read/write scope for profile data.
+- `scan_logs.user_id` is nullable only when anonymous scans are explicitly supported. Logs must not contain uploaded image bytes, raw OCR text, passwords, OAuth tokens, or unnecessary personal data.
+- User-facing scan history is opt-in and must be separate from operational aggregate event logging. The default must be no persistent image retention.
+- Account deletion must remove or anonymize profile-linked scan records according to the final retention policy. This policy is a launch blocker if left undefined.
+
+### Auth Flow
+
+```mermaid
+flowchart TD
+  Start[Open /auth] --> Choice{Choose sign-in method}
+  Choice -->|Google| Google[Supabase Google OAuth]
+  Google --> Callback[Verified auth callback]
+  Choice -->|Email/password| Email[Validate credentials]
+  Email -->|Create account| Verify[Send verification email]
+  Email -->|Sign in| Session[Create session]
+  Verify --> Verified{Email verified?}
+  Verified -->|No| Pending[Show verification pending]
+  Verified -->|Yes| Session
+  Callback --> Session
+  Session --> Profile[Open protected /profile]
+  Email -->|Invalid| Error[Localized generic auth error]
+  Google -->|Cancelled/failed| Error
+```
+
+### Security and Acceptance Criteria
+
+- OAuth secrets and Supabase service-role credentials remain server-side; only the public Supabase URL and anon key may be exposed to the browser.
+- Callback URLs are allowlisted for local, staging, and production environments. Open redirects are prohibited; redirect targets must be fixed or allowlisted.
+- Auth endpoints and reset/resend actions are rate-limited and protected against brute-force abuse.
+- RLS tests prove that one authenticated user cannot read or mutate another user's profile or scan records.
+- Authenticated and anonymous scan behavior is explicitly tested, including session expiry during OCR and sign-out from another browser tab.
+- `/privacy` and `/terms` are published before enabling account creation. Consent copy must state whether scan results or history are stored.
+
+## Account Feature Delivery Plan
+
+### Phase 0 Addendum: Foundations
+
+- Define the five routes and shared navigation contract.
+- Configure Supabase Auth providers, callback URLs, email templates, and environment variables in a secrets-managed environment.
+- Add the `profiles` model and RLS policy design; decide whether anonymous scanning and persistent scan history are enabled.
+
+**Artifact:** reviewed route map, auth configuration checklist, privacy/terms content draft, and migration/RLS specification.
+
+### Phase 3 Addendum: Safety and Polish
+
+- Validate responsive `/auth` states, accessible form errors, verification/reset flows, OAuth cancellation, and protected `/profile` navigation.
+- Run a privacy review confirming no image bytes or raw OCR text are persisted by account or analytics paths.
+- Test legal-page links, language coverage, consent wording, and account deletion/retention behavior.
+
+**Artifact:** staging authentication walkthrough and signed privacy/security test report.
+
+### Phase 4 Addendum: User Testing and Decision Gate
+
+- Test Google and email/password journeys with Hausa- and English-speaking participants.
+- Measure auth completion, verification completion, scan success by auth state, and support incidents without collecting unnecessary personal data.
+- Do not enable production account creation until the unresolved decisions on anonymous scanning, scan-history consent, email verification enforcement, and account deletion are approved.
+
+**Artifact:** user-test findings, auth launch decision, and documented retention policy.

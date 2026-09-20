@@ -15,26 +15,27 @@ export default function Header({ language, onLanguageChange }: HeaderProps) {
   const t = getTranslation(language);
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3.5 sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white shadow-md shadow-sky-200">
-            <Pill className="w-6 h-6" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 text-white shadow-lg shadow-emerald-200/80">
+            <Pill className="h-5 w-5" />
           </div>
+
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              {t.appTitle}
-              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-medium">
-                Verified DB
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-black tracking-[-0.04em] text-slate-900 sm:text-xl">
+                {t.appTitle}
+              </h1>
+              <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-700">
+                Verified
               </span>
-            </h1>
-            <p className="text-xs text-slate-500 hidden sm:block">{t.appSubtitle}</p>
+            </div>
+            <p className="hidden text-[11px] text-slate-500 sm:block">{t.appSubtitle}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <LanguageToggle language={language} onLanguageChange={onLanguageChange} />
-        </div>
+        <LanguageToggle language={language} onLanguageChange={onLanguageChange} />
       </div>
     </header>
   );

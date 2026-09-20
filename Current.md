@@ -39,3 +39,37 @@
 1. **Package Installation**: Run `npm install` to initialize local `node_modules` for `npm run dev` and `npm run build`.
 2. **Type Synchronization**: Standardize `OCRResult` property name (`raw_text` vs `rawText`) in `src/lib/ocr.ts`.
 3. **File Object Base64 Encoding**: Update `page.tsx` $\rightarrow$ `UploadBox.tsx` handoff to convert uploaded `File` objects into base64 buffers before passing to `processImageOCR`.
+
+---
+
+## Phase 4: User Testing & Decision Gate — Kickoff Status
+
+**Timestamp**: 2026-09-20T18:50:00+01:00  
+**Status**: In Progress / Blocked on deployment credentials and local script policy
+
+### Phase 4 Initiation Checklist
+- [ ] Prepare Vercel staging deployment with HTTPS public URL.
+- [ ] Register the staging environment and production-safe callback URLs for auth and API routes.
+- [ ] Run a controlled user testing cohort of 20–50 Hausa/English speakers in Northern Nigeria / Kano.
+- [ ] Track success rate, refusal rate, comprehension self-report, and language preference data.
+- [ ] Review the decision gate against the target thresholds before moving to any native client planning.
+
+### Decision Gate Metrics
+1. Successful identification rate: $\ge 70\%$ on in-database medicines.
+2. User comprehension self-report: $\ge 60\%$.
+3. Hausa vs English preference distribution captured and tracked.
+4. Low-confidence refusal rate recorded and monitored.
+5. End-to-end response time validated on throttled 3G/4G conditions where possible.
+
+### Current Verification Note
+- A production build was attempted with `npm install; npm run build`.
+- Result: blocked by Windows PowerShell execution policy, which prevented `npm.ps1` from running.
+- Error evidence: `File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts is disabled on this system.`
+
+### Phase 4 Immediate Next Actions
+1. Re-run the install/build validation after enabling script execution in the local terminal or using a non-restricted shell.
+2. Configure the Vercel staging deployment and capture the public HTTPS URL.
+3. Prepare the test cohort brief, consent language, and data collection sheet.
+4. Record the user testing results in the QA artifacts and make the decision gate recommendation.
+
+---

@@ -3,11 +3,63 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --bg: #f2f7f5;
+  --bg-strong: #eaf3f1;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-soft: #edf6f4;
+  --ink: #132c2c;
+  --muted: #53656b;
+  --line: rgba(15, 23, 42, 0.08);
+  --accent: #0f766e;
+  --accent-strong: #0b5b5a;
+  --accent-soft: #dff5f1;
+  --sky: #0e7490;
+  --warning: #9a5b00;
+  --warning-soft: #fff3d6;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #f8fafc;
-  color: #0f172a;
+  background:
+    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(14, 116, 144, 0.08), transparent 30%),
+    var(--bg);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.15);
+}
+
+.medora-shell {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(5px);
+}
+
+.medora-card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 20px 45px -22px rgba(15, 118, 110, 0.18);
+}
+
+.medora-divider {
+  background: linear-gradient(90deg, rgba(15, 118, 110, 0.12), rgba(14, 116, 144, 0.08), transparent);
 }

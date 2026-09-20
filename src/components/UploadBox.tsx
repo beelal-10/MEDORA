@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { UploadCloud, Loader2, Camera } from 'lucide-react';
 import { Language } from '@/types';
 import { getTranslation } from '@/lib/i18n';
@@ -17,6 +17,15 @@ export default function UploadBox({ language, onImageSelected, isLoading, loadin
   const [isDragOver, setIsDragOver] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const objectUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+      }
+    };
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -34,7 +43,12 @@ export default function UploadBox({ language, onImageSelected, isLoading, loadin
       return;
     }
 
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+    }
+
     const url = URL.createObjectURL(file);
+    objectUrlRef.current = url;
     setPreviewUrl(url);
     onImageSelected(file);
   };
@@ -58,16 +72,16 @@ export default function UploadBox({ language, onImageSelected, isLoading, loadin
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto my-6">
+    <div className="mx-auto my-6 w-full max-w-xl">
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
+        className={`medora-card overflow-hidden rounded-[28px] p-4 transition-all duration-200 ${
           isDragOver
-            ? 'border-sky-500 bg-sky-50/80 scale-[1.01]'
-            : 'border-slate-300 bg-white hover:border-sky-400 hover:bg-slate-50'
+            ? 'scale-[1.01] border-emerald-300 bg-emerald-50/70'
+            : 'border-slate-200 bg-white/80 hover:border-emerald-300 hover:bg-white'
         } ${isLoading ? 'pointer-events-none opacity-80' : ''}`}
       >
         <input
@@ -79,33 +93,33 @@ export default function UploadBox({ language, onImageSelected, isLoading, loadin
         />
 
         {isLoading ? (
-          <div className="flex flex-col items-center py-6">
-            <Loader2 className="w-12 h-12 text-sky-600 animate-spin mb-4" />
-            <p className="text-sm font-semibold text-slate-700">
-              {loadingStep || t.scanning}
-            </p>
-            <p className="text-xs text-slate-500 mt-1">Transient processing in memory...</p>
+          <div className="flex flex-col items-center py-8">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 shadow-inner shadow-emerald-200/70">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+            <p className="text-sm font-semibold text-slate-800">{loadingStep || t.scanning}</p>
+            <p className="mt-1 text-xs text-slate-500">Processing securely in memory</p>
           </div>
         ) : previewUrl ? (
           <div className="flex flex-col items-center">
             <img
               src={previewUrl}
               alt="Medicine Package Preview"
-              className="max-h-48 rounded-lg shadow-sm border border-slate-200 mb-4 object-contain"
+              className="mb-4 max-h-52 rounded-2xl border border-slate-200 object-contain shadow-sm"
             />
-            <p className="text-xs text-sky-600 font-medium">Click or drop to replace photo</p>
+            <p className="text-xs font-medium text-emerald-700">Click or drop to replace this photo</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center py-4">
-            <div className="w-14 h-14 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 mb-4">
-              <UploadCloud className="w-7 h-7" />
+          <div className="flex flex-col items-center py-6 sm:py-8">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 via-teal-50 to-sky-100 text-emerald-700 shadow-inner shadow-emerald-200/80">
+              <UploadCloud className="h-8 w-8" />
             </div>
-            <h3 className="text-base font-semibold text-slate-800 mb-1">
-              {t.uploadPrompt}
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">{t.dragDropText}</p>
-            <div className="inline-flex items-center gap-2 text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full font-medium">
-              <Camera className="w-3.5 h-3.5" />
+
+            <h3 className="mb-2 text-lg font-bold text-slate-900">{t.uploadPrompt}</h3>
+            <p className="mb-5 text-sm text-slate-500">{t.dragDropText}</p>
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-medium text-slate-600">
+              <Camera className="h-3.5 w-3.5 text-sky-700" />
               {t.supportedFormats}
             </div>
           </div>

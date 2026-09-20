@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'MEDORA - Understand Your Medicine, in Your Language',
-  description: 'AI-assisted health accessibility platform providing verified medicine identification and simplified explanations in Hausa and English.',
+  title: 'MEDORA | Understand Your Medicine, in Your Language',
+  description: 'A clear, verified medicine guide for Hausa and English users, designed to simplify medicine information without guessing.',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-slate-50 flex flex-col font-sans">
+      <body className="min-h-screen bg-transparent text-slate-900 flex flex-col antialiased">
         {children}
       </body>
     </html>

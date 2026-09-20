@@ -11,27 +11,31 @@ interface LanguageToggleProps {
 
 export default function LanguageToggle({ language, onLanguageChange }: LanguageToggleProps) {
   return (
-    <div className="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
-      <Globe className="w-4 h-4 text-slate-500 ml-2 mr-1" />
+    <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-100/80 p-1.5 shadow-sm">
+      <div className="hidden items-center gap-1.5 rounded-full px-2 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-slate-500 sm:flex">
+        <Globe className="h-3.5 w-3.5" />
+        {language === 'ha' ? 'Hausa' : 'English'}
+      </div>
+
       <button
         onClick={() => onLanguageChange('en')}
-        className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+        className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
           language === 'en'
-            ? 'bg-white text-sky-700 shadow-sm'
+            ? 'bg-white text-sky-700 shadow-sm ring-1 ring-slate-200'
             : 'text-slate-600 hover:text-slate-900'
         }`}
       >
-        English
+        EN
       </button>
       <button
         onClick={() => onLanguageChange('ha')}
-        className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+        className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all ${
           language === 'ha'
-            ? 'bg-sky-600 text-white shadow-sm'
+            ? 'bg-sky-700 text-white shadow-sm'
             : 'text-slate-600 hover:text-slate-900'
         }`}
       >
-        Hausa
+        HA
       </button>
     </div>
   );
