@@ -1,0 +1,137 @@
+[
+  {
+    "id": "med-001",
+    "brand_name": "Paracetamol BP",
+    "generic_name": "Paracetamol (Acetaminophen)",
+    "active_ingredients": ["Paracetamol 500mg"],
+    "strength": "500mg",
+    "dosage_form": "Tablet",
+    "manufacturer": "Emzor Pharmaceutical Industries Ltd",
+    "nafdac_reg_number": "04-0123",
+    "uses": {
+      "en": ["Relief of mild to moderate pain (headache, body aches)", "Reduction of fever"],
+      "ha": ["Neman saukin ciwon kai da ciwon jiki", "Rage zazzabi"]
+    },
+    "warnings": {
+      "en": ["Do not exceed recommended dose", "Excessive doses may cause severe liver damage", "Do not combine with other paracetamol products"],
+      "ha": ["Kada a shiga fiye da kima", "Kiman da aka wuce zai iya lalata hanta", "Kada a haɗa da sauran magungunan da ke ɗauke da paracetamol"]
+    },
+    "side_effects": {
+      "en": ["Rare skin rash", "Nausea if taken on empty stomach"],
+      "ha": ["Awasar fata ta da ba a fi gani ba", "Kaikayin ciki idan an sha ba tare da abinci ba"]
+    },
+    "storage": {
+      "en": "Store below 30°C in a dry place away from direct sunlight.",
+      "ha": "A ajiye shi a wurin da zafinsa bai wuce 30°C ba kuma nesa da rana."
+    },
+    "verified": true
+  },
+  {
+    "id": "med-002",
+    "brand_name": "Coartem 80/480",
+    "generic_name": "Artemether / Lumefantrine",
+    "active_ingredients": ["Artemether 80mg", "Lumefantrine 480mg"],
+    "strength": "80mg/480mg",
+    "dosage_form": "Tablet",
+    "manufacturer": "Novartis Pharma AG",
+    "nafdac_reg_number": "04-5678",
+    "uses": {
+      "en": ["Treatment of uncomplicated Plasmodium falciparum malaria"],
+      "ha": ["Maganin zazzabin cizon sauro (zazzabi mai zafi)"]
+    },
+    "warnings": {
+      "en": ["Take strictly with fatty food or milk for proper absorption", "Complete full course even if feeling better", "Do not use for malaria prevention"],
+      "ha": ["A sha tare da abinci mai mai ko madara domin ya yi aiki sosai", "A kammala duk fannin maganin koda an ji sauki", "Kada a yi amfani da shi wajen kare kai daga zazzabi"]
+    },
+    "side_effects": {
+      "en": ["Dizziness", "Loss of appetite", "Joint pain", "Fatigue"],
+      "ha": ["Jiri", "Rashin jin yunwa", "Ciwon haɗin gwiwa", "Gajiya"]
+    },
+    "storage": {
+      "en": "Store below 30°C in original blister pack.",
+      "ha": "A ajiye shi a wurin da bai fi 30°C ba a cikin murfarsa ta asali."
+    },
+    "verified": true
+  },
+  {
+    "id": "med-003",
+    "brand_name": "Amoxil 500mg",
+    "generic_name": "Amoxicillin Trihydrate",
+    "active_ingredients": ["Amoxicillin 500mg"],
+    "strength": "500mg",
+    "dosage_form": "Capsule",
+    "manufacturer": "GlaxoSmithKline Nigeria Plc",
+    "nafdac_reg_number": "04-2345",
+    "uses": {
+      "en": ["Treatment of susceptible bacterial infections (respiratory, ear, throat, urinary)"],
+      "ha": ["Maganin cututtukan da kwayoyin cuta (bacteria) ke haifarwa a kirji, kunne, da ma'ogoro"]
+    },
+    "warnings": {
+      "en": ["Do not use if allergic to penicillin", "Complete full prescribed dosage to prevent bacterial resistance", "Consult doctor if severe diarrhea occurs"],
+      "ha": ["Kada a sha idan ana amsa rashin jituwa da penicillin", "A kammala duk maganin da likita ya rubuta domin gudun jure magani na kwayoyin cuta", "Tuntubi likita idan an samu zawo mai tsanani"]
+    },
+    "side_effects": {
+      "en": ["Nausea", "Mild diarrhea", "Skin rash"],
+      "ha": ["Amai ko tashin zuciya", "Tausayin ciki ko zawo mai sauki", "Kaikayin fata"]
+    },
+    "storage": {
+      "en": "Store in a cool dry place below 25°C.",
+      "ha": "A ajiye a wuri mai sanyi da bushewa wanda bai fi 25°C ba."
+    },
+    "verified": true
+  },
+  {
+    "id": "med-004",
+    "brand_name": "Glucophage 500mg",
+    "generic_name": "Metformin Hydrochloride",
+    "active_ingredients": ["Metformin HCl 500mg"],
+    "strength": "500mg",
+    "dosage_form": "Tablet",
+    "manufacturer": "Merck Healthcare KGaA",
+    "nafdac_reg_number": "04-8901",
+    "uses": {
+      "en": ["Management of Type 2 Diabetes Mellitus"],
+      "ha": ["Maganin sarrafa cutar sukari nau'in na biyu (Type 2 Diabetes)"]
+    },
+    "warnings": {
+      "en": ["Take with or after meals to reduce stomach discomfort", "Avoid excessive alcohol intake", "Regular kidney function monitoring required"],
+      "ha": ["A sha tare da abinci ko bayan ci domin rage bacin ciki", "A guji shan giya mai yawa", "Ana buqatar duba aikin koda akai-akai"]
+    },
+    "side_effects": {
+      "en": ["Stomach upset", "Metallic taste in mouth", "Nausea"],
+      "ha": ["Bacin ciki", "Dandanar karfe a baki", "Tashin zuciya"]
+    },
+    "storage": {
+      "en": "Store below 30°C protected from light.",
+      "ha": "A ajiye karkashin 30°C a nesa da haske."
+    },
+    "verified": true
+  },
+  {
+    "id": "med-005",
+    "brand_name": "Ibuprofen 400mg",
+    "generic_name": "Ibuprofen",
+    "active_ingredients": ["Ibuprofen 400mg"],
+    "strength": "400mg",
+    "dosage_form": "Tablet",
+    "manufacturer": "Bond Chemical Industries Ltd",
+    "nafdac_reg_number": "04-3456",
+    "uses": {
+      "en": ["Relief of pain, inflammation, and fever in arthritis, dysmenorrhea, and injuries"],
+      "ha": ["Rage ciwo, kumburi, da zazzabi ga ciwon haɗin gwiwa ko ciwon al'ada"]
+    },
+    "warnings": {
+      "en": ["Always take with food or milk to prevent stomach ulcers", "Do not use if history of peptic ulcer disease", "Consult doctor if asthmatic"],
+      "ha": ["Koyaushe a sha tare da abinci ko madara domin kariya daga miki a ciki", "Kada a sha idan ana da tarihin mikin ciki (ulcer)", "Tuntubi likita idan kana da cutar asma"]
+    },
+    "side_effects": {
+      "en": ["Heartburn", "Stomach distress", "Dizziness"],
+      "ha": ["Kaikayin kirji", "Ciwon ciki", "Jiri"]
+    },
+    "storage": {
+      "en": "Keep out of reach of children. Store below 30°C.",
+      "ha": "A ajiye nesa da yara. A ajiye karkashin 30°C."
+    },
+    "verified": true
+  }
+]
